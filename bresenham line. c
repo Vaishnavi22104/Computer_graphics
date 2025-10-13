@@ -1,0 +1,72 @@
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+#include <stdio.h>
+
+// Function to draw a line using Generalized Bresenham's Algorithm
+void bresenhamLine(int x1, int y1, int x2, int y2) {
+    int dx, dy, x, y, p, incx, incy, inc1, inc2, i, steps;
+
+    dx = abs(x2 - x1);
+    dy = abs(y2 - y1);
+
+    if (x2 > x1) incx = 1; else incx = -1;
+    if (y2 > y1) incy = 1; else incy = -1;
+
+    x = x1;
+    y = y1;
+
+    if (dx > dy) {
+	p = 2 * dy - dx;
+	inc1 = 2 * (dy - dx);
+	inc2 = 2 * dy;
+	putpixel(x, y, GREEN);
+
+	for (i = 0; i < dx; i++) {
+	    x += incx;
+	    if (p < 0) p += inc2;
+	    else {
+		y += incy;
+		p += inc1;
+	    }
+	    putpixel(x, y, GREEN);
+	}
+    } else {
+	p = 2 * dx - dy;
+	inc1 = 2 * (dx - dy);
+	inc2 = 2 * dx;
+	putpixel(x, y, RED);
+
+	for (i = 0; i < dy; i++) {
+	    y += incy;
+	    if (p < 0) p += inc2;
+	    else {
+		x += incx;
+		p += inc1;
+            }
+	    putpixel(x, y, GREEN);
+        }
+    }
+}
+
+int main() {
+    int gd, gm;
+    int x1, y1, x2, y2;
+
+    gd = DETECT;
+    gm = 0;
+
+    initgraph(&gd, &gm, "C:\\TC\\BGI");  // Graphics path
+
+    // Example input for line coordinates
+    x1 = 100;
+    y1 = 100;
+    x2 = 400;
+    y2 = 250;
+
+    bresenhamLine(x1, y1, x2, y2);
+
+    getch();
+    closegraph();
+    return 0;
+}
