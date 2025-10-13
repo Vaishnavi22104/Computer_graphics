@@ -1,0 +1,74 @@
+#include <graphics.h>
+#include <conio.h>
+#include <dos.h>  // for delay()
+
+// Function to draw a fancy car
+void drawCar(int x, int y) {
+    // Car body
+    setcolor(BLUE);
+    setfillstyle(SOLID_FILL, LIGHTBLUE);
+    rectangle(x, y, x + 120, y + 40);   // Main body
+    floodfill(x + 5, y + 5, BLUE);
+
+    // Car roof
+    setcolor(BLUE);
+    rectangle(x + 20, y - 20, x + 100, y);
+    floodfill(x + 25, y - 10, BLUE);
+
+    // Windows
+    setcolor(BLACK);
+    setfillstyle(SOLID_FILL, WHITE);
+    rectangle(x + 25, y - 18, x + 45, y - 2);
+    floodfill(x + 30, y - 10, BLACK);
+
+    rectangle(x + 60, y - 18, x + 90, y - 2);
+    floodfill(x + 65, y - 10, BLACK);
+
+    // Headlights
+    setcolor(YELLOW);
+    setfillstyle(SOLID_FILL, YELLOW);
+    circle(x + 120, y + 10, 5);
+    floodfill(x + 120, y + 10, YELLOW);
+
+    // Wheels
+    setcolor(BLACK);
+    setfillstyle(SOLID_FILL, BLACK);
+    circle(x + 25, y + 40, 10);  // Left wheel
+    floodfill(x + 25, y + 40, BLACK);
+
+    circle(x + 95, y + 40, 10);  // Right wheel
+    floodfill(x + 95, y + 40, BLACK);
+
+    // Rims (optional, for style)
+    setcolor(WHITE);
+    circle(x + 25, y + 40, 5);
+    circle(x + 95, y + 40, 5);
+}
+
+int main() {
+    int gd, gm;  // Graphics driver and mode
+    int x, y;    // Car position
+
+    gd = DETECT; gm = 0;
+
+    initgraph(&gd, &gm, "C:\\TC\\BGI");
+    setbkcolor(WHITE);
+    cleardevice();
+
+    x = 0;   // Initial x position
+    y = 250; // Position of car on screen
+
+    while (!kbhit()) {
+        cleardevice();
+        drawCar(x, y);
+        x += 5;
+        if (x > getmaxx()) {
+            x = -120; // Reset car when it goes off-screen
+        }
+        delay(100);
+    }
+
+    getch();
+    closegraph();
+    return 0;
+}
